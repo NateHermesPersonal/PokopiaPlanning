@@ -25,8 +25,7 @@ with open('Pokopia.csv', mode='r', newline='') as file:
                     break
             # else:
             #     print(f"{p.name} doesn't have a favorite of any of the categories")
-print(f"{len(pokemon)} total compatible traders")
-print(habitats)
+print(f"{len(pokemon)} total compatible traders: {habitats}")
 
 # print(f"\n{len(pokemon)} total Pokemon")
 # print(f"Each Pokemon has {Pokemon.Pokemon.numfavorites} favorites")
