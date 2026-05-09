@@ -25,6 +25,7 @@ def main():
         for link in soup.find_all('a', href=True):
             name = link.get_text().strip()
             href = link['href']
+            category = None
 
             # Better stopping condition - look for Pokémon links
             # if '/pokedex/' in href.lower():
@@ -33,14 +34,18 @@ def main():
 
             # Only keep actual item links
             if '/pokemonpokopia/items/' in href and name:
-                # Skip the category links (Decoration, Toy, etc.)
-                if name not in ["Decoration", "Toy", ""]:
-                    items.append(name)
+                # Skip the category links (Decoration, Toy, Relaxation)
+                if name not in ["Decoration", "Toy", "Relaxation"]:
+                    # print(f"Adding {name}")
+                    items.append(f"{name} ({category})")
+                else:
+                    # print(f"skipping {name}")
+                    category = name
 
         unique_items = list(dict.fromkeys(items))  # remove duplicates, keep order
         print(f"Found {len(unique_items)} items in {category}:")
         for item in unique_items:
-            # print("  •", item)
+        #     # print("  •", item)
             print(item)
         
         # Optional: save to CSV
