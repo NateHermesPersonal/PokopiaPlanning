@@ -6,20 +6,43 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
-favoritesCategories = ["Strange stuff"]
 itemCategories = ["Decoration", "Toy", "Relaxation"]
 baseUrl = "https://www.serebii.net/pokemonpokopia/favorites/"
+favoritesUrl = "https://www.serebii.net/pokemonpokopia/favorites.shtml"
 
 def get_soup(url):
     response = requests.get(url)
     response.raise_for_status()
     return BeautifulSoup(response.text, "html.parser")
 
+def get_all_favorite_categories():
+    """Scrape the main page to get list of all favorite categories"""
+    print(f"Fetching all favorite categories from: {favoritesUrl}")
+    soup = get_soup(favoritesUrl)
+    
+    categories = []
+    
+    for link in soup.find_all('a', href=True):
+        href = link['href']
+        name = link.get_text().strip()
+        
+        # Look for links pointing to favorite category pages
+        if '/pokemonpokopia/favorites/' in href and href.endswith('.shtml') and name:
+            # Extract clean name (e.g. "Strange stuff")
+            category_name = name.strip()
+            if category_name and category_name not in categories:
+                categories.append(category_name)
+    
+    print(f"Found {len(categories)} favorite categories.")
+    return categories
+
 def main():
+    favoritesCategories = get_all_favorite_categories()
+
     for category_page in favoritesCategories:
         short = category_page.replace(" ", "").lower()
         url = f"{baseUrl}{short}.shtml"
-        print(f"Scraping: {url}")
+        # print(f"Scraping: {url}")
         
         soup = get_soup(url)
         items = []
@@ -32,7 +55,7 @@ def main():
 
             # Stop before the 'List of Pokémon' section
             if '/pokemonpokopia/pokedex/' in href.lower():
-                print("Reached Pokémon section, stopping.")
+                # print("Reached Pokémon section, stopping.")
                 break
 
             # === If we found a Category link ===
@@ -69,8 +92,8 @@ def main():
 
         # Print results
         print(f"Found {len(unique_items)} '{category_page}' items:")
-        for item in unique_items:
-            print(f"{item['Name']}  ({item['Category']})")
+        # for item in unique_items:
+        #     print(f"{item['Name']}  ({item['Category']})")
 
         # === Save to CSV (uncomment when ready) ===
         # csv_path = Path(f"{short}_items.csv")
