@@ -1,14 +1,18 @@
+from collections import defaultdict
 import csv
 import re
 import time
+import Pokemon
 from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
 
+REF_DIR = Path(__file__).parent.parent / "reference"
 itemCategories = ["Decoration", "Toy", "Relaxation"]
 baseUrl = "https://www.serebii.net/pokemonpokopia/favorites/"
 favoritesUrl = "https://www.serebii.net/pokemonpokopia/favorites.shtml"
+favoritesDict = None
 
 def get_soup(url):
     response = requests.get(url)
@@ -33,10 +37,15 @@ def get_all_favorite_categories():
             if category_name and category_name not in categories:
                 categories.append(category_name)
     
-    print(f"Found {len(categories)} favorite categories.")
+    # print(f"Found {len(categories)} favorite categories.")
     return categories
 
-def main():
+def getFavoritesDictionary():
+    global favoritesDict
+    if favoritesDict is not None:
+        return favoritesDict
+
+    favoritesDict = defaultdict(list)
     favoritesCategories = get_all_favorite_categories()
 
     for category_page in favoritesCategories:
@@ -91,7 +100,8 @@ def main():
                 unique_items.append(item)
 
         # Print results
-        print(f"Found {len(unique_items)} '{category_page}' items:")
+        # print(f"Found {len(unique_items)} '{category_page}' items:")
+        favoritesDict[category_page] = unique_items
         # for item in unique_items:
         #     print(f"{item['Name']}  ({item['Category']})")
 
@@ -103,7 +113,30 @@ def main():
         #     writer.writerows(unique_items)
         # print(f"Saved to {csv_path}\n")
 
-    print("All done!")
+    # print(favoritesDict.keys())
+
+    print("Built Dictionary of Favorites items!")
+    return favoritesDict
+
+def getFavoriteItems(pokemon):
+    with open(REF_DIR / 'Pokopia.csv', mode='r', newline='') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row["Name"] == pokemon:
+                print(f"Found {pokemon}!")
+                p = Pokemon.Pokemon(row)
 
 if __name__ == "__main__":
-    main()
+    dict = getFavoritesDictionary()
+    # print(dict.keys())
+
+    # if favoritesDict:
+    #     print("True")
+    # else:
+    #     print("False")
+    getFavoriteItems("Bonsly") # test
+    getFavoriteItems("Combee") # test
+    # if favoritesDict:
+    #     print("True")
+    # else:
+    #     print("False")
