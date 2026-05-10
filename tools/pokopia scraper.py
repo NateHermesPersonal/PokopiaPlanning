@@ -8,9 +8,9 @@ from bs4 import BeautifulSoup
 
 # Configuration
 BASE_URL = "https://www.serebii.net"
-_DIR = Path(__file__).parent
-URLS_FILE = _DIR / "pokopia_urls.txt"
-OUTPUT_FILE = _DIR / "Pokopia.csv"
+_DIR = Path(__file__).parent.parent
+URLS_FILE = _DIR / "reference/pokopia_urls.txt"
+OUTPUT_FILE = _DIR / "reference/Pokopia.csv"
 MAX_HABITATS = 3  # colspan="3" in the HTML suggests up to 3
 LOCATIONS = [
     "Withered Wastelands",
