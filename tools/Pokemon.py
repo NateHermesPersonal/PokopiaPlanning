@@ -1,6 +1,9 @@
+from favorites import getFavoritesDictionary
+
 class Pokemon:
     numspecialties = 2
     numfavorites = 6
+    favoritesDict = {}
 
     def __init__(self, data):
         self.name = data['Name']
@@ -12,3 +15,7 @@ class Pokemon:
         self.favorites = []
         for f in range(self.numfavorites):
             self.favorites.append(data[f"Favorite {f+1}"])
+        self.getFavoriteItems()
+
+    def getFavoriteItems(self):
+        pass

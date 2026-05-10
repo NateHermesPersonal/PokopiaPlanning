@@ -2,7 +2,6 @@ from collections import defaultdict
 import csv
 import re
 import time
-import Pokemon
 from pathlib import Path
 
 import requests
@@ -42,7 +41,10 @@ def get_all_favorite_categories():
 
 def getFavoritesDictionary():
     global favoritesDict
-    if favoritesDict is not None:
+    if favoritesDict is None:
+        print("Dictionary is empty.  Will proceed with loading data")
+    else:
+        print("Dictionary already set up!")
         return favoritesDict
 
     favoritesDict = defaultdict(list)
@@ -115,7 +117,7 @@ def getFavoritesDictionary():
 
     # print(favoritesDict.keys())
 
-    print("Built Dictionary of Favorites items!")
+    # print("Built Dictionary of Favorites items!")
     return favoritesDict
 
 def getFavoriteItems(pokemon):
@@ -124,19 +126,5 @@ def getFavoriteItems(pokemon):
         for row in reader:
             if row["Name"] == pokemon:
                 print(f"Found {pokemon}!")
-                p = Pokemon.Pokemon(row)
-
-if __name__ == "__main__":
-    dict = getFavoritesDictionary()
-    # print(dict.keys())
-
-    # if favoritesDict:
-    #     print("True")
-    # else:
-    #     print("False")
-    getFavoriteItems("Bonsly") # test
-    getFavoriteItems("Combee") # test
-    # if favoritesDict:
-    #     print("True")
-    # else:
-    #     print("False")
+                from Pokemon import Pokemon
+                p = Pokemon(row)
