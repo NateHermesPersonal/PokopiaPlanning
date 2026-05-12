@@ -1,4 +1,4 @@
-from favorites import getFavoritesDictionary
+from favorites import getFavoritesDictionary, itemCategories, itemCategoriesSet
 
 class Pokemon:
     numspecialties = 2
@@ -20,11 +20,29 @@ class Pokemon:
         favDictionary = getFavoritesDictionary()
         self.favoriteItems = []
         seen = {}
+        # Track which categories we've covered
+        coveredCategories = set()
         for favCategory in self.favorites:
-            for item in favDictionary.get(favCategory, []):
+            if not favCategory or favCategory not in favDictionary:
+                continue
+
+            for item in favDictionary[favCategory]:
                 itemName = item["Name"]
+                itemCategory = item.get("Category", None)
+
                 if itemName not in seen:
                     seen[itemName] = item
                     # self.favoriteItems.append(item)
                     self.favoriteItems.append(itemName) # just the name, or customize further?
-        # print(f"Found {len(self.favoriteItems)} favorite items")
+                    # Record that we have this category
+                    if itemCategory in itemCategories:
+                        coveredCategories.add(itemCategory)
+
+        # Optional: Print warning if missing categories
+        missing = itemCategoriesSet - coveredCategories
+        if missing:
+            print(f"Warning: {self.name} is missing items from categories: {missing}")
+        else:
+            print(f"{self.name} has items from all categories: ({itemCategoriesSet})")
+
+        print(f"{self.name} → {len(self.favoriteItems)} unique favorite items")

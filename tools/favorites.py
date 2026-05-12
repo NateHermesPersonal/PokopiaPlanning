@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 
 REF_DIR = Path(__file__).parent.parent / "reference"
 itemCategories = ["Decoration", "Toy", "Relaxation"]
+itemCategoriesSet = set(itemCategories)
 baseUrl = "https://www.serebii.net/pokemonpokopia/favorites/"
 favoritesUrl = "https://www.serebii.net/pokemonpokopia/favorites.shtml"
 favoritesDict = None
