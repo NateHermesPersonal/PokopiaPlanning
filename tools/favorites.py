@@ -121,6 +121,7 @@ def getFavoritesDictionary():
     return favoritesDict
 
 def getFavoriteItems(pokemon):
+    # fav_dict = getFavoritesDictionary()
     with open(REF_DIR / 'Pokopia.csv', mode='r', newline='') as file:
         reader = csv.DictReader(file)
         for row in reader:
@@ -128,3 +129,4 @@ def getFavoriteItems(pokemon):
                 print(f"Found {pokemon}!")
                 from Pokemon import Pokemon
                 p = Pokemon(row)
+                return p.favoriteItems

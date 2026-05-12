@@ -11,8 +11,8 @@ if __name__ == "__main__":
     #     print("True")
     # else:
     #     print("False")
-    favorites.getFavoriteItems("Bonsly") # test
-    favorites.getFavoriteItems("Combee") # test
+    print(favorites.getFavoriteItems("Bonsly")) # test
+    print(favorites.getFavoriteItems("Combee")) # test
     # if favoritesDict:
     #     print("True")
     # else:

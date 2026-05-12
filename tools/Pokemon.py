@@ -3,7 +3,6 @@ from favorites import getFavoritesDictionary
 class Pokemon:
     numspecialties = 2
     numfavorites = 6
-    favoritesDict = {}
 
     def __init__(self, data):
         self.name = data['Name']
@@ -18,4 +17,14 @@ class Pokemon:
         self.getFavoriteItems()
 
     def getFavoriteItems(self):
-        pass
+        favDictionary = getFavoritesDictionary()
+        self.favoriteItems = []
+        seen = {}
+        for favCategory in self.favorites:
+            for item in favDictionary.get(favCategory, []):
+                itemName = item["Name"]
+                if itemName not in seen:
+                    seen[itemName] = item
+                    # self.favoriteItems.append(item)
+                    self.favoriteItems.append(itemName) # just the name, or customize further?
+        # print(f"Found {len(self.favoriteItems)} favorite items")
