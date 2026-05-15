@@ -121,13 +121,68 @@ def getFavoritesDictionary():
     # print("Built Dictionary of Favorites items!")
     return favoritesDict
 
-def getFavoriteItems(pokemon):
-    # fav_dict = getFavoritesDictionary()
-    with open(REF_DIR / 'Pokopia.csv', mode='r', newline='') as file:
+def getPokemon(pokemon_name: str):
+    """Return a fully loaded Pokemon object"""
+    with open(REF_DIR / 'Pokopia.csv', mode='r', newline='', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            if row["Name"] == pokemon:
-                print(f"Found {pokemon}!")
-                from Pokemon import Pokemon
+            if row["Name"] == pokemon_name:
+                print(f"Found {pokemon_name}!")
+                from Pokemon import Pokemon          # Local import
                 p = Pokemon(row)
-                return p.favoriteItems
+                return p
+                
+    print(f"{pokemon_name} not found in Pokopia.csv")
+    return None
+
+
+def getFavoriteItems(pokemon_name: str):
+    """Convenience function: return only the list of favorite item names"""
+    p = getPokemon(pokemon_name)
+    if p:
+        return p.favoriteItems
+    return None
+
+def pokemon_share_category_items(pokemon_list):
+    """Check if a group of Pokemon share at least one item in each category"""
+    if not pokemon_list:
+        return {cat: False for cat in itemCategories}
+
+    # Ensure all Pokemon have their favoriteItems loaded
+    for p in pokemon_list:
+        if not hasattr(p, 'favoriteItems') or len(p.favoriteItems) == 0:
+            p.getFavoriteItems()
+
+    category_items = {cat: [] for cat in itemCategories}
+
+    fav_dict = getFavoritesDictionary()
+
+    for p in pokemon_list:
+        p_by_cat = defaultdict(list)
+        for item_name in p.favoriteItems:
+            for items_list in fav_dict.values():
+                for item in items_list:
+                    if item["Name"] == item_name:
+                        cat = item.get("Category")
+                        if cat in itemCategories:
+                            p_by_cat[cat].append(item_name)
+                        break
+
+        for cat in itemCategories:
+            category_items[cat].append(set(p_by_cat.get(cat, [])))
+
+    # Compute shared items per category
+    result = {}
+    for cat in itemCategories:
+        if not category_items[cat]:
+            result[cat] = False
+            continue
+            
+        common = category_items[cat][0].copy()
+        for item_set in category_items[cat][1:]:
+            common &= item_set
+            if not common:
+                break
+        result[cat] = len(common) > 0
+
+    return result
