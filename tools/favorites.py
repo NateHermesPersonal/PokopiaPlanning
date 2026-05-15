@@ -42,11 +42,11 @@ def get_all_favorite_categories():
 
 def getFavoritesDictionary():
     global favoritesDict
-    if favoritesDict is None:
-        print("Dictionary is empty.  Will proceed with loading data")
-    else:
-        print("Dictionary already set up!")
+    if favoritesDict is not None:
+        # print("Favorites dictionary already set up!")
         return favoritesDict
+    # else:
+    #     print("Favorites dictionary is empty.  Will proceed with loading data")
 
     favoritesDict = defaultdict(list)
     favoritesCategories = get_all_favorite_categories()
@@ -132,7 +132,7 @@ def getPokemon(pokemon_name: str):
                 p = Pokemon(row)
                 return p
                 
-    print(f"{pokemon_name} not found in Pokopia.csv")
+    print(f"WARNING: {pokemon_name} not found in Pokopia.csv")
     return None
 
 
@@ -186,3 +186,51 @@ def pokemon_share_category_items(pokemon_list):
         result[cat] = len(common) > 0
 
     return result
+
+def get_common_favorite_items(pokemon_list):
+    """
+    Returns items that are common to ALL Pokemon in the list,
+    grouped by category (no duplicates).
+    """
+    if len(pokemon_list) < 2:
+        print("Need at least 2 Pokemon to find common items.")
+        return {}
+
+    # Ensure all Pokemon have their favoriteItems loaded
+    for p in pokemon_list:
+        if not hasattr(p, 'favoriteItems') or len(p.favoriteItems) == 0:
+            p.getFavoriteItems()
+
+    # Get items common to ALL Pokemon (unique names)
+    item_sets = [set(p.favoriteItems) for p in pokemon_list]
+    common_item_names = item_sets[0].copy()
+    for s in item_sets[1:]:
+        common_item_names &= s
+
+    if not common_item_names:
+        print("No items in common across all Pokemon.")
+        return {}
+
+    # Group common items by category - using a set to prevent duplicates
+    from collections import defaultdict
+    common_by_category = defaultdict(list)
+    seen_in_output = set()          # Extra safety
+
+    fav_dict = getFavoritesDictionary()
+
+    for item_name in sorted(common_item_names):
+        added = False
+        for items_list in fav_dict.values():
+            for item in items_list:
+                if item["Name"] == item_name:
+                    cat = item.get("Category", "None")
+                    if cat in itemCategories and item_name not in seen_in_output:
+                        common_by_category[cat].append(item_name)
+                        seen_in_output.add(item_name)
+                        added = True
+                    break
+            if added:
+                break  # Stop once we've placed the item
+
+    print(f"Found {len(common_item_names)} unique items common to all {len(pokemon_list)} Pokemon.")
+    return dict(common_by_category)

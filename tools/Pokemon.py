@@ -39,10 +39,10 @@ class Pokemon:
                         coveredCategories.add(itemCategory)
 
         # Optional: Print warning if missing categories
-        missing = itemCategoriesSet - coveredCategories
-        if missing:
-            print(f"Warning: {self.name} is missing items from categories: {missing}")
-        else:
-            print(f"{self.name} has items from all categories: ({itemCategoriesSet})")
+        # missing = itemCategoriesSet - coveredCategories
+        # if missing:
+        #     print(f"Warning: {self.name} is missing items from categories: {missing}")
+        # else:
+        #     print(f"{self.name} has items from all categories: ({itemCategoriesSet})")
 
-        print(f"{self.name} → {len(self.favoriteItems)} unique favorite items")
+        # print(f"{self.name} → {len(self.favoriteItems)} unique favorite items")
