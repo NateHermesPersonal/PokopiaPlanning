@@ -21,7 +21,7 @@ def get_soup(url):
 
 def get_all_favorite_categories():
     """Scrape the main page to get list of all favorite categories"""
-    print(f"Fetching all favorite categories from: {favoritesUrl}")
+    # print(f"Fetching all favorite categories from: {favoritesUrl}")
     soup = get_soup(favoritesUrl)
     
     categories = []
@@ -45,8 +45,8 @@ def getFavoritesDictionary():
     if favoritesDict is not None:
         # print("Favorites dictionary already set up!")
         return favoritesDict
-    # else:
-    #     print("Favorites dictionary is empty.  Will proceed with loading data")
+    else:
+        print("Building dictionary of favorite items")
 
     favoritesDict = defaultdict(list)
     favoritesCategories = get_all_favorite_categories()
@@ -132,7 +132,7 @@ def getPokemon(pokemon_name: str):
                 p = Pokemon(row)
                 return p
                 
-    print(f"WARNING: {pokemon_name} not found in Pokopia.csv")
+    print(f"WARNING: '{pokemon_name}' not found in Pokopia.csv")
     return None
 
 
