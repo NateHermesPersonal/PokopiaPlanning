@@ -13,6 +13,20 @@ itemCategoriesSet = set(itemCategories)
 baseUrl = "https://www.serebii.net/pokemonpokopia/favorites/"
 favoritesUrl = "https://www.serebii.net/pokemonpokopia/favorites.shtml"
 favoritesDict = None
+_all_pokemon = None
+
+def get_all_pokemon():
+    """Load and cache all Pokemon objects"""
+    global _all_pokemon
+    if _all_pokemon is None:
+        _all_pokemon = []
+        with open(REF_DIR / 'Pokopia.csv', mode='r', newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                from Pokemon import Pokemon
+                _all_pokemon.append(Pokemon(row))
+        # print(f"Loaded {len(_all_pokemon)} Pokemon.")
+    return _all_pokemon
 
 def get_soup(url):
     response = requests.get(url)
@@ -122,15 +136,13 @@ def getFavoritesDictionary():
     return favoritesDict
 
 def getPokemon(pokemon_name: str):
-    """Return a fully loaded Pokemon object"""
-    with open(REF_DIR / 'Pokopia.csv', mode='r', newline='', encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if row["Name"] == pokemon_name:
-                print(f"Found {pokemon_name}!")
-                from Pokemon import Pokemon          # Local import
-                p = Pokemon(row)
-                return p
+    """Return a single Pokemon object by name (uses cached all_pokemon)"""
+    all_pokemon = get_all_pokemon()
+    
+    for p in all_pokemon:
+        if p.name == pokemon_name:
+            # print(f"Found {pokemon_name}!")
+            return p
                 
     print(f"WARNING: '{pokemon_name}' not found in Pokopia.csv")
     return None
@@ -234,3 +246,33 @@ def get_common_favorite_items(pokemon_list):
 
     print(f"Found {len(common_item_names)} unique items common to all {len(pokemon_list)} Pokemon.")
     return dict(common_by_category)
+
+def get_pokemon_that_like_item(item_name: str, return_objects=False):
+    """
+    Returns a list of Pokemon that have the given item as one of their favorites.
+    
+    Parameters:
+        item_name (str): Name of the item to search for
+        return_objects (bool): If True, returns Pokemon objects. If False, returns names.
+    
+    Returns:
+        list[str] or list[Pokemon]
+    """
+    if not item_name:
+        return []
+
+    # Load all Pokemon
+    pokemon_list = get_all_pokemon()
+
+    # Filter Pokemon that like this item
+    matching_pokemon = []
+    for p in pokemon_list:
+        if any(item_name.lower() == fav.lower() for fav in p.favoriteItems):
+            matching_pokemon.append(p)
+
+    print(f"Found {len(matching_pokemon)} Pokemon that like '{item_name}'")
+
+    if return_objects:
+        return matching_pokemon
+    else:
+        return [p.name for p in matching_pokemon]
