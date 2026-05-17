@@ -45,6 +45,6 @@ if __name__ == "__main__":
     items = ["Wall mirror"]
     for item in items:
         favs: list[Pokemon] = favorites.get_pokemon_that_like_item(item, return_objects=True)
-        matches = [f"{p.name}({p.habitat})" for p in favs if "Trade" in p.specialties]
+        matches = [f"{p.name} ({p.habitat})" for p in favs if "Trade" in p.specialties]
         nameString = ",".join(matches)
         print(f"The following {len(matches)} Pokemon like {item}: {nameString}")
