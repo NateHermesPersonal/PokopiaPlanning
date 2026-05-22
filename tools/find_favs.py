@@ -6,6 +6,7 @@ if __name__ == "__main__":
     favorites.getFavoritesDictionary()
 
     # Get full Pokemon objects
+    # pokemonNames = ["Zapdos"]
     pokemonNames = ["Bonsly","Combee","Dartrix","Elekid","Pik"] # include bogus name to ensure proper handling
     pokemonObjects: list[Pokemon] = [
         p for name in pokemonNames 
@@ -14,6 +15,7 @@ if __name__ == "__main__":
 
     for pokemon in pokemonObjects:
         print(f"{pokemon.name} has {len(pokemon.favoriteItems)} unique favorite items")
+        # print(pokemon.favoriteItems)
     
     # Check for common habitat
     if pokemonObjects:

@@ -34,6 +34,7 @@ class Pokemon:
                     seen[itemName] = item
                     # self.favoriteItems.append(item)
                     self.favoriteItems.append(itemName) # just the name, or customize further?
+                    # print(f"{itemName}({itemCategory})")
                     # Record that we have this category
                     if itemCategory in itemCategories:
                         coveredCategories.add(itemCategory)
