@@ -18,17 +18,16 @@ if __name__ == "__main__":
 
     for pokemon in pokemonObjects:
         print(f"{pokemon.name} has {len(pokemon.favoriteItems)} unique favorite items")
-        # print(pokemon.favoriteItems)
+        timestamp = datetime.now().strftime("%m%d%y_%H%M%S")
+        filename = f"output/{pokemon.name}_favorites_{timestamp}.txt"
+        with open(filename, mode='w') as file:
+            file.write('\n'.join(pokemon.expandedFavorites))
+            print(f"Saved {pokemon.name}'s favorite items to {filename}")
     
     # Check for common habitat
     if pokemonObjects:
         nameString = ",".join([f"{p.name}" for p in pokemonObjects])
         print(f"\nLooking at Pokemon {nameString}:")
-        timestamp = datetime.now().strftime("%m%d%y_%H%M%S")
-        filename = f"output/{p.name}_favorites_{timestamp}.txt"
-        with open(filename, mode='w') as file:
-            file.write('\n'.join(p.expandedFavorites))
-            print(f"Saved {p.name}'s favorite items to {filename}")
 
         first_habitat = pokemonObjects[0].habitat
         all_same = all(p.habitat == first_habitat for p in pokemonObjects)
