@@ -75,7 +75,7 @@ def getFavoritesDictionary():
         pending_item = None   # Holds the item until we find its category
         links = soup.find_all('a', href=True)
 
-        for link in soup.find_all('a', href=True):
+        for link in links:
             name = link.get_text().strip()
             href = link['href']
 

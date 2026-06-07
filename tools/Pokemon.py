@@ -19,6 +19,7 @@ class Pokemon:
     def getFavoriteItems(self):
         favDictionary = getFavoritesDictionary()
         self.favoriteItems = []
+        self.expandedFavorites = []
         seen = {}
         # Track which categories we've covered
         coveredCategories = set()
@@ -34,7 +35,9 @@ class Pokemon:
                     seen[itemName] = item
                     # self.favoriteItems.append(item)
                     self.favoriteItems.append(itemName) # just the name, or customize further?
-                    # print(f"{itemName}({itemCategory})")
+                    # if not silent:
+                    #     print(f"{itemName}({itemCategory})")
+                    self.expandedFavorites.append(f"{itemName}({itemCategory})")
                     # Record that we have this category
                     if itemCategory in itemCategories:
                         coveredCategories.add(itemCategory)
