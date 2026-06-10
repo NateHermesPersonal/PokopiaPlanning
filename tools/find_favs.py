@@ -10,7 +10,9 @@ if __name__ == "__main__":
     # Get full Pokemon objects
     # pokemonNames = ["Zapdos"]
     # pokemonNames = ["Bonsly","Combee","Dartrix","Elekid","Pik"] # include bogus name to ensure proper handling
-    pokemonNames = ["Larvitar"]
+    
+    # pokemonNames = ["Larvitar"]
+    pokemonNames = ["Haxorus","Axew","Duskull"]
     pokemonObjects: list[Pokemon] = [
         p for name in pokemonNames 
         if (p := favorites.getPokemon(name)) is not None
@@ -48,8 +50,15 @@ if __name__ == "__main__":
         # See which favorite items they have in common
         print("\nItems in common:")
         common = favorites.get_common_favorite_items(pokemonObjects)
-        for cat, items in common.items():
-            print(f"  {cat}: {items} ({len(items)})")
+        timestamp = datetime.now().strftime("%m%d%y_%H%M%S")
+        filename = f"output/{nameString}_shared_favorites_{timestamp}.txt"
+        with open(filename, mode='w') as file:
+            for cat in common.keys():
+                for item in common[cat]:
+                    file.write(f"{item}({cat})\n")
+            # for cat, items in common.keys():
+            #     file.write(f"{cat}: {items} ({len(items)})\n")
+            print(f"Shared favorites of {nameString} saved to {filename}")
 
     #  for "trade market"
     # items = ["Wall mirror"]
