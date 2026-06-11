@@ -22,9 +22,9 @@ if __name__ == "__main__":
         print(f"{pokemon.name} has {len(pokemon.favoriteItems)} unique favorite items")
         timestamp = datetime.now().strftime("%m%d%y_%H%M%S")
         filename = f"output/{pokemon.name}_favorites_{timestamp}.txt"
-        with open(filename, mode='w') as file:
-            file.write('\n'.join(pokemon.expandedFavorites))
-            print(f"Saved {pokemon.name}'s favorite items to {filename}")
+        # with open(filename, mode='w') as file:
+        #     file.write('\n'.join(pokemon.expandedFavorites))
+        #     print(f"Saved {pokemon.name}'s favorite items to {filename}")
     
     # Check for common habitat
     if pokemonObjects:
@@ -52,13 +52,11 @@ if __name__ == "__main__":
         common = favorites.get_common_favorite_items(pokemonObjects)
         timestamp = datetime.now().strftime("%m%d%y_%H%M%S")
         filename = f"output/{nameString}_shared_favorites_{timestamp}.txt"
-        with open(filename, mode='w') as file:
-            for cat in common.keys():
-                for item in common[cat]:
-                    file.write(f"{item}({cat})\n")
-            # for cat, items in common.keys():
-            #     file.write(f"{cat}: {items} ({len(items)})\n")
-            print(f"Shared favorites of {nameString} saved to {filename}")
+        # with open(filename, mode='w') as file:
+        #     for cat in common.keys():
+        #         for item in common[cat]:
+        #             file.write(f"{item}({cat})\n")
+        #     print(f"Shared favorites of {nameString} saved to {filename}")
 
     #  for "trade market"
     # items = ["Wall mirror"]

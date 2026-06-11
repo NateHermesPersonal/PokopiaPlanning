@@ -1,6 +1,14 @@
 from favorites import getFavoritesDictionary, itemCategories, itemCategoriesSet
 
 class Pokemon:
+    ZONES = {}
+    ZONES[1] = "Withered Wastelands"
+    ZONES[2] = "Bleak Beach"
+    ZONES[3] = "Rocky Ridges"
+    ZONES[4] = "Sparkling Skylands"
+    ZONES[5] = "Palette Town" # Material farms
+
+    defaultHomeString = "doesn't have a permanent home" 
     numspecialties = 2
     numfavorites = 6
 
@@ -15,6 +23,17 @@ class Pokemon:
         for f in range(self.numfavorites):
             self.favorites.append(data[f"Favorite {f+1}"])
         self.getFavoriteItems()
+        h = data['Home'] # 'None' if not specified
+        if h:
+            try:
+                self.home = self.ZONES[int(h)]
+                print(f"{self.name} lives in {self.home}")
+            except KeyError as e:
+                print(f"WARNING: {self.name}'s Home index of '{h}' is out of range")
+                self.home = None
+        else:
+            self.home = None
+            # print(f"{self.name} {self.defaultHomeString}")
 
     def getFavoriteItems(self):
         favDictionary = getFavoritesDictionary()
@@ -50,3 +69,6 @@ class Pokemon:
         #     print(f"{self.name} has items from all categories: ({itemCategoriesSet})")
 
         # print(f"{self.name} → {len(self.favoriteItems)} unique favorite items")
+
+    def getHome(self, zoneNumber):
+        pass
