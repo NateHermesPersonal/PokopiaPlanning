@@ -13,7 +13,9 @@ if __name__ == "__main__":
     
     # pokemonNames = ["Larvitar"]
     # pokemonNames = ["Haxorus","Axew","Duskull"]
-    pokemonNames = ["Mareep","Combee","Venusaur","Ariados","Bastiodon","Cacturne"]
+    # pokemonNames = ["Mareep","Combee","Venusaur","Ariados","Bastiodon","Cacturne"]
+    # pokemonNames = ["Paldean Wooper","Trapinch","Girafarig","Rolycoly","Torkoal"]
+    pokemonNames = ["Girafarig","Rolycoly","Torkoal"]
     pokemonObjects: list[Pokemon] = [
         p for name in pokemonNames 
         if (p := favorites.getPokemon(name)) is not None
