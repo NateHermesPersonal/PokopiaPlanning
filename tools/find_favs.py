@@ -60,6 +60,10 @@ if __name__ == "__main__":
                 for item in common[cat]:
                     file.write(f"{item}({cat})\n")
             print(f"Shared favorites of {nameString} saved to {filename}")
+        
+    # palletteResidents = favorites.getZoneResidents(5)
+    # residentNameString = f"{",".join([p.name for p in palletteResidents])} ({len(palletteResidents)})"
+    # print(f"{residentNameString=}")
 
     #  for "trade market"
     # items = ["Wall mirror"]

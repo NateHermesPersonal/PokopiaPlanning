@@ -276,3 +276,12 @@ def get_pokemon_that_like_item(item_name: str, return_objects=False):
         return matching_pokemon
     else:
         return [p.name for p in matching_pokemon]
+
+def getZoneResidents(zoneNumber: int):
+    residents = []
+    pokemonList = get_all_pokemon()
+    for pokemon in pokemonList:
+        if pokemon.homeID == zoneNumber:
+            residents.append(pokemon)
+    
+    return residents

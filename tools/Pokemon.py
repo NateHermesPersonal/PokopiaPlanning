@@ -1,4 +1,4 @@
-from favorites import getFavoritesDictionary, itemCategories, itemCategoriesSet
+from favorites import getFavoritesDictionary, itemCategories
 
 class Pokemon:
     ZONES = {}
@@ -31,8 +31,10 @@ class Pokemon:
             except KeyError as e:
                 print(f"WARNING: {self.name}'s Home index of '{h}' is out of range")
                 self.home = None
+            self.homeID = int(h)
         else:
             self.home = None
+            self.homeID = None
             # print(f"{self.name} {self.defaultHomeString}")
 
     def getFavoriteItems(self):
@@ -69,6 +71,3 @@ class Pokemon:
         #     print(f"{self.name} has items from all categories: ({itemCategoriesSet})")
 
         # print(f"{self.name} → {len(self.favoriteItems)} unique favorite items")
-
-    def getHome(self, zoneNumber):
-        pass
