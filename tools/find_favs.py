@@ -62,8 +62,8 @@ if __name__ == "__main__":
             print(f"Shared favorites of {nameString} saved to {filename}")
         
     # palletteResidents = favorites.getZoneResidents(5)
-    # residentNameString = f"{",".join([p.name for p in palletteResidents])} ({len(palletteResidents)})"
-    # print(f"{residentNameString=}")
+    # palletteResidentsNameString = f"{",".join([p.name for p in palletteResidents])} ({len(palletteResidents)})"
+    # print(f"{palletteResidentsNameString=}")
 
     #  for "trade market"
     # items = ["Wall mirror"]
