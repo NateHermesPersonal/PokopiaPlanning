@@ -15,7 +15,9 @@ if __name__ == "__main__":
     # pokemonNames = ["Haxorus","Axew","Duskull"]
     # pokemonNames = ["Mareep","Combee","Venusaur","Ariados","Bastiodon","Cacturne"]
     # pokemonNames = ["Paldean Wooper","Trapinch","Girafarig","Rolycoly","Torkoal"]
-    pokemonNames = ["Girafarig","Rolycoly","Torkoal"]
+    # pokemonNames = ["Girafarig","Rolycoly","Torkoal"]
+    # pokemonNames = ["Eevee","Glimmet","Glimmora"]
+    pokemonNames = ["Carkol","Charmander","Machoke"]
     pokemonObjects: list[Pokemon] = [
         p for name in pokemonNames 
         if (p := favorites.getPokemon(name)) is not None
@@ -61,9 +63,10 @@ if __name__ == "__main__":
                     file.write(f"{item}({cat})\n")
             print(f"Shared favorites of {nameString} saved to {filename}")
         
-    # palletteResidents = favorites.getZoneResidents(5)
+    palletteResidents = favorites.getZoneResidents(5)
     # palletteResidentsNameString = f"{",".join([p.name for p in palletteResidents])} ({len(palletteResidents)})"
     # print(f"{palletteResidentsNameString=}")
+    print(f"{len(palletteResidents)} Pokemon live in Pallette Town")
 
     #  for "trade market"
     # items = ["Wall mirror"]

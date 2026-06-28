@@ -27,7 +27,7 @@ class Pokemon:
         if h:
             try:
                 self.home = self.ZONES[int(h)]
-                print(f"{self.name} lives in {self.home}")
+                # print(f"{self.name} lives in {self.home}")
             except KeyError as e:
                 print(f"WARNING: {self.name}'s Home index of '{h}' is out of range")
                 self.home = None
